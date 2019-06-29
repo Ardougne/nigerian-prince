@@ -5,7 +5,7 @@ import datetime
 import random
 
 BOT_PREFIX = ('+')
-TOKEN = 'NTkzMjQ0NzQxMzUzNjAzMDcy.XRLKRQ.HxkDkECW7bACGK467Muq6GhKBc0'
+TOKEN = 'secret'
 
 bot = Bot(command_prefix=BOT_PREFIX)
 
