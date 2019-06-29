@@ -4,13 +4,12 @@ from discord.ext.commands import Bot
 import datetime
 import random
 
-BOT_PREFIX = ("+")
-TOKEN = 'secret'
+BOT_PREFIX = ('+')
+TOKEN = 'NTkzMjQ0NzQxMzUzNjAzMDcy.XRLKRQ.HxkDkECW7bACGK467Muq6GhKBc0'
 
 bot = Bot(command_prefix=BOT_PREFIX)
 
-convos = {}
-frequency = 1000
+convos = {'frequency': 1000}
 
 @bot.event
 async def on_ready():
@@ -24,7 +23,7 @@ async def on_ready():
 @bot.event
 async def on_message(mes):
     # initiate convos
-    if mes.guild and random.randrange(0,frequency) == 0:
+    if mes.guild and random.randrange(0,convos['frequency']) == 0:
         user = mes.author
         e_num = random.randint(1,7)
         email = []
@@ -48,13 +47,15 @@ async def on_message(mes):
                 del convos[mes.author.id]
         except discord.errors.HTTPException:
             print('unable to send a message to {}'.format(user))
+    await bot.process_commands(mes)
 
 @bot.command()
 async def change_frequency(ctx, new_freq):
     try:
-        frequency = int(new_freq)
+        convos['frequency'] = int(new_freq)
     except Exception as error:
         await ctx.send('```error: {}```'.format(error))
-    await ctx.send('Frequency changed to one DM per {} messages.'.format(frequency))
+        return
+    await ctx.send('Frequency changed to one DM per {} messages.'.format(convos['frequency']))
 
 bot.run(TOKEN)
